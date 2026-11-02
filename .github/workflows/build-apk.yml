@@ -18,7 +18,7 @@ jobs:
           cp pubspec.yaml build_app/pubspec.yaml
           cp main.dart build_app/lib/main.dart
           rm -rf build_app/lib
-          cp -r lib build_app/lib
+          cp main.dart build_app/lib/main.dart
           sed -i 's/<application/<application android:usesCleartextTraffic="true"/' build_app/android/app/src/main/AndroidManifest.xml
           sed -i '/<manifest/a\\    <uses-permission android:name="android.permission.INTERNET"/>' build_app/android/app/src/main/AndroidManifest.xml
       - working-directory: build_app
