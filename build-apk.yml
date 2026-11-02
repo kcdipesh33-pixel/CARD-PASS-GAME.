@@ -1,0 +1,28 @@
+name: Build CARD PASS APK
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: flutter create --platforms=android --org com.cardpass --project-name card_pass build_app
+      - run: |
+          cp pubspec.yaml build_app/pubspec.yaml
+          rm -rf build_app/lib
+          cp -r lib build_app/lib
+          sed -i 's/<application/<application android:usesCleartextTraffic="true"/' build_app/android/app/src/main/AndroidManifest.xml
+          sed -i '/<manifest/a\\    <uses-permission android:name="android.permission.INTERNET"/>' build_app/android/app/src/main/AndroidManifest.xml
+      - working-directory: build_app
+        run: flutter pub get
+      - working-directory: build_app
+        run: flutter build apk --release --dart-define=HOST_PIN=${{ secrets.HOST_PIN }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CARD-PASS-APK
+          path: build_app/build/app/outputs/flutter-apk/app-release.apk

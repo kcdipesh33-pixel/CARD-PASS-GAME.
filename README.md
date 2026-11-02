@@ -1,1 +1,4 @@
-# CARD-PASS-GAME.
+# CARD PASS source project
+Upload the contents of this ZIP to the root of a GitHub repository (branch main). In repository Settings > Secrets and variables > Actions, create HOST_PIN. Open Actions and run Build CARD PASS APK. Download the CARD-PASS-APK artifact after success.
+
+This is source code, not a built APK. It has not been compiled or tested on physical devices in this session. The offline Host PIN is embedded in the distributed APK and can be extracted by reverse engineering; it cannot prove original-owner identity securely offline. QR is displayed as IP text data; joining is currently manual IP entry. The source implements the main lobby/deal/pass/host control flow but still needs real-device testing and review. Goti mapping is numeric rank 1–13; clarify the physical board's goti numbering if it differs.
