@@ -12,7 +12,7 @@ jobs:
         with:
           channel: stable
       - run: flutter create --platforms=android --org com.cardpass --project-name card_pass build_app
-      
+      run:
                 - name: Build APK
   run: |
     chmod +x gradlew
