@@ -13,11 +13,14 @@ jobs:
           channel: stable
       - run: flutter create --platforms=android --org com.cardpass --project-name card_pass build_app
       - run: |
-                - name: Copy app source
+                      - name: Copy app source
         run: |
+          mkdir -p build_app/lib
           cp pubspec.yaml build_app/pubspec.yaml
           cp main.dart build_app/lib/main.dart
-          rm -rf build_app/lib
+        
+      
+        
           cp main.dart build_app/lib/main.dart
           sed -i 's/<application/<application android:usesCleartextTraffic="true"/' build_app/android/app/src/main/AndroidManifest.xml
           sed -i '/<manifest/a\\    <uses-permission android:name="android.permission.INTERNET"/>' build_app/android/app/src/main/AndroidManifest.xml
