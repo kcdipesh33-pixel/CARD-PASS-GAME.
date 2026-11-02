@@ -13,8 +13,11 @@ jobs:
           channel: stable
       - run: flutter create --platforms=android --org com.cardpass --project-name card_pass build_app
       
-                      - name: Copy app source
-        run: |
+                - name: Build APK
+  run: |
+    chmod +x gradlew
+    ./gradlew assembleDebug
+        
           mkdir -p build_app/lib
           cp pubspec.yaml build_app/pubspec.yaml
           cp main.dart build_app/lib/main.dart
