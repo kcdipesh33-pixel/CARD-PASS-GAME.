@@ -22,15 +22,60 @@ List<C> deck(){
  a.shuffle(Random.secure());return a;
 }
 const bg=Color(0xff101020), purple=Color(0xff7657e8), green=Color(0xff169c55);
-class Home extends StatelessWidget{
- const Home({super.key});
- @override Widget build(BuildContext c)=>Scaffold(backgroundColor:bg,body:Center(child:Padding(padding:const EdgeInsets.all(24),child:Column(mainAxisSize:MainAxisSize.min,children:[
- const Icon(Icons.style,size:80,color:purple),const Text('CARD PASS',style:TextStyle(fontSize:32,fontWeight:FontWeight.bold)),
- const Text('PLAY • PASS • WIN'),const SizedBox(height:30),
- SizedBox(width:240,child:FilledButton(onPressed:()=>Navigator.push(c,MaterialPageRoute(builder:(_)=>const Host())),child:const Text('HOST CONTROL'))),
- SizedBox(width:240,child:OutlinedButton(onPressed:()=>Navigator.push(c,MaterialPageRoute(builder:(_)=>const Player())),child:const Text('JOIN GAME')))
- ])))));
+
+class Home extends StatelessWidget {
+  const Home({super.key});
+
+  @override
+  Widget build(BuildContext c) {
+    return Scaffold(
+      backgroundColor: bg,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.style, size: 80, color: purple),
+              const SizedBox(height: 16),
+              const Text(
+                'CARD PASS',
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text('PLAY • PASS • WIN'),
+              const SizedBox(height: 30),
+              SizedBox(
+                width: 240,
+                child: FilledButton(
+                  onPressed: () => Navigator.push(
+                    c,
+                    MaterialPageRoute(builder: (_) => const Host()),
+                  ),
+                  child: const Text('HOST'),
+                ),
+              ),
+              SizedBox(
+                width: 240,
+                child: OutlinedButton(
+                  onPressed: () => Navigator.push(
+                    c,
+                    MaterialPageRoute(builder: (_) => const Player()),
+                  ),
+                  child: const Text('PLAYER'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
+
 class Host extends StatefulWidget{const Host({super.key});@override State<Host> createState()=>_HostState();}
 class _HostState extends State<Host>{
  final pin=TextEditingController(); bool ok=false,started=false,ended=false; HttpServer? server;String ip='',msg='Owner PIN';
