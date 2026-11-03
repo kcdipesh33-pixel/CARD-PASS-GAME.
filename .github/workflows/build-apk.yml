@@ -1,37 +1,45 @@
+
 name: Build CARD PASS APK
+
 on:
   workflow_dispatch:
   push:
     branches: [ main ]
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
           channel: stable
-      - run: flutter create --platforms=android --org com.cardpass --project-name card_pass build_app
-      
-                - name: Build APK
-  run: |
-    chmod +x gradlew
-    ./gradlew assembleDebug
-        
+
+      - name: Create Flutter Android project
+        run: |
+          flutter create --platforms=android --org com.cardpass --project-name card_pass build_app
+
+      - name: Copy app source files
+        run: |
           mkdir -p build_app/lib
           cp pubspec.yaml build_app/pubspec.yaml
           cp main.dart build_app/lib/main.dart
-        
-      
-        
-          cp main.dart build_app/lib/main.dart
-          sed -i 's/<application/<application android:usesCleartextTraffic="true"/' build_app/android/app/src/main/AndroidManifest.xml
-          sed -i '/<manifest/a\\    <uses-permission android:name="android.permission.INTERNET"/>' build_app/android/app/src/main/AndroidManifest.xml
-      - working-directory: build_app
+
+      - name: Get Flutter dependencies
+        working-directory: build_app
         run: flutter pub get
-      - working-directory: build_app
+
+      - name: Build release APK
+        working-directory: build_app
         run: flutter build apk --release --dart-define=HOST_PIN=${{ secrets.HOST_PIN }}
-      - uses: actions/upload-artifact@v4
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
         with:
           name: CARD-PASS-APK
           path: build_app/build/app/outputs/flutter-apk/app-release.apk
+          
